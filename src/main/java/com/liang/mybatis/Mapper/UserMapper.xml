@@ -3,11 +3,20 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.liang.mybatis.Mapper.UserMapper">
-    <select id="getUserInfoList" resultType="com.liang.mybatis.Bean.Userinfo">
+    <select id="getUserInfoList" resultType="userinfo">
         select * from userinfo
     </select>
 
-    <insert id="insertUser" parameterType="com.liang.mybatis.Bean.Userinfo">
-        insert into userinfo(id,name,age) values(#{id},#{name},#{age})
+    <insert id="insertUser" parameterType="userinfo" useGeneratedKeys="true" keyProperty="id">
+        insert into userinfo(name,age) values(#{name},#{age})
     </insert>
+
+
+    <resultMap id="teacher" type="teacher">
+        <result column="id" property="id"/>
+        <result column="name" property="Tname"/>
+    </resultMap>
+    <select id="getTeacherById" parameterType="int" resultMap="teacher">
+        select * from teacher where id=#{id}
+    </select>
 </mapper>
