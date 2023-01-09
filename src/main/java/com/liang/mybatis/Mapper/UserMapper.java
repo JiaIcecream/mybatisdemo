@@ -1,5 +1,7 @@
 package com.liang.mybatis.Mapper;
 
+import com.liang.mybatis.Bean.Course;
+import com.liang.mybatis.Bean.Student;
 import com.liang.mybatis.Bean.Teacher;
 import com.liang.mybatis.Bean.Userinfo;
 import org.apache.ibatis.annotations.Param;
@@ -18,5 +20,9 @@ public interface UserMapper {
 	@Select("select * from userinfo where id = #{id} and name = #{name}")
 	Userinfo getUserinfoById(@Param("id") int id,@Param("name") String name);
 
-	Teacher getTeacherById(@Param("id") int id);
+	Teacher getTeacherById(@Param("id") Integer id);
+
+	Student getStudentById(@Param("id") Integer id);
+
+	Course getCourseById(@Param("id") Integer id);
 }

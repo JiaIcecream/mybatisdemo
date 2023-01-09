@@ -11,12 +11,46 @@
         insert into userinfo(name,age) values(#{name},#{age})
     </insert>
 
+    <select id="getUserInfoById" parameterType="int" resultType="userinfo">
+        select * from userinfo tid = #{id}
+    </select>
 
+    <!--    用来应对一对多-->
     <resultMap id="teacher" type="teacher">
-        <result column="id" property="id"/>
-        <result column="name" property="Tname"/>
+        <id property="id" column="id"/>
+<!--        这里的id指的是teacher的id 表示使用老师的id去查对应的学生-->
+<!--        <association property="userinfo" column="id" javaType="userinfo" select="getUserInfoById" />-->
+        <collection property="student" column="id" ofType="student" javaType="ArrayList" select="getStudentByTeacherId" />
     </resultMap>
-    <select id="getTeacherById" parameterType="int" resultMap="teacher">
+    <select id="getTeacherById" parameterType="Integer" resultMap="teacher">
         select * from teacher where id=#{id}
     </select>
+    <select id="getStudentByTeacherId" parameterType="int" resultType="student">
+        select * from student where tid=#{id}
+    </select>
+
+
+<!--     用来应对多对一-->
+    <resultMap id="studentResult" type="student">
+        <result property="tid" column="tid" />
+        <association property="teacher" column="tid" javaType="teacher" select="getTeacherById"/>
+    </resultMap>
+    <select id="getStudentById" parameterType="int" resultMap="studentResult">
+        select * from student where id=#{id}
+    </select>
+
+
+
+<!--    更加复杂的情况 list里嵌套list-->
+    <resultMap id="courseResult" type="course">
+        <id property="id" column="id"/>
+        <!--        这里的id指的是course的id-->
+        <collection property="teachers" column="id" ofType="teacher" javaType="ArrayList" select="getTeacherById" />
+    </resultMap>
+    <select id="getCourseById" parameterType="int" resultMap="courseResult">
+        select * from course where id = #{id}
+    </select>
+
+
+
 </mapper>

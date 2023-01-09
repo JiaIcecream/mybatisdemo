@@ -1,5 +1,7 @@
 package com.liang.mybatis.Mapper;
 
+import com.liang.mybatis.Bean.Course;
+import com.liang.mybatis.Bean.Student;
 import com.liang.mybatis.Bean.Teacher;
 import com.liang.mybatis.Bean.Userinfo;
 import com.liang.mybatis.Utils.mybatisUtil;
@@ -51,6 +53,24 @@ public class userMapperTest {
 		UserMapper userMapper = session.getMapper(UserMapper.class);
 		Teacher teacher = userMapper.getTeacherById(1);
 		System.out.println(teacher);
+		session.close();
+	}
+
+	@Test
+	public void getStudentById() {
+		SqlSession session = mybatisUtil.getSqlSession();
+		UserMapper userMapper = session.getMapper(UserMapper.class);
+		Student student = userMapper.getStudentById(1);
+		System.out.println(student);
+		session.close();
+	}
+
+	@Test
+	public void getCourseById() {
+		SqlSession session = mybatisUtil.getSqlSession();
+		UserMapper userMapper = session.getMapper(UserMapper.class);
+		Course course = userMapper.getCourseById(1);
+		System.out.println(course);
 		session.close();
 	}
 
